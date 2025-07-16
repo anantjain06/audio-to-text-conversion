@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conversation Analysis Workflow</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header img {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      color: #ff6f00;
+      margin: 10px 0 5px;
+    }
+    header p {
+      color: #666;
+      font-weight: bold;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .tab {
+      padding: 10px 20px;
+      background: lightgreen;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab.active {
+      background: #ff6f00;
+      color: white;
+    }
+    .tab i {
+      font-size: 1.2rem;
+    }
+    .step {
+      background: #fff;
+      padding: 24px;
+      margin-bottom: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease-in-out;
+      min-height: 400px;
+    }
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      border: 2px solid #ff6f00;
+    }
+    .step h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #333;
+    }
+    .step p {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #555;
+    }
+    .step input[type="file"], .step textarea, .step button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+    }
+    .step textarea {
+      resize: vertical;
+      height: 100px;
+    }
+    .report {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .report h3 {
+      margin-top: 0;
+    }
+    button {
+      background-color: #ff6f00;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover {
+      background-color: #e85c00;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #ddd;
+      color: #444;
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+    .collapsible {
+      background: #e6f3ff;
+      border: 1px solid #66b2ff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      color: #003366;
+      cursor: pointer;
+    }
+    .collapsible-content {
+      padding-top: 10px;
+      display: none;
+    }
+    .collapsible.open .collapsible-content {
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 12px;
+      }
+      .tabs {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Orange_circle.svg" alt="Logo">
+      <h1>Call Summary and Quality Analyzer</h1>
+      <p>Developed by: AI Hustle Squad</p>
+    </header>
+
+    <div class="tabs">
+      <div class="tab active" onclick="goToStep(1)"><i class="fas fa-microphone"></i> Step 1</div>
+      <div class="tab" onclick="goToStep(2)"><i class="fas fa-brain"></i> Step 2</div>
+      <div class="tab" onclick="goToStep(3)"><i class="fas fa-align-left"></i> Step 3</div>
+      <div class="tab" onclick="goToStep(4)"><i class="fas fa-chart-line"></i> Step 4</div>
+    </div>
+
+    <div class="step" id="step1">
+      <div class="collapsible open" onclick="this.classList.toggle('open')">
+        <strong>Note:</strong> Please ensure audio is clear and in supported format (MP3, WAV).
+        <div class="collapsible-content">Clear audio ensures accurate transcription. MP3/WAV formats preferred.</div>
+      </div>
+      <h2><i class='fas fa-microphone'></i> Step 1: Convert Audio to Text</h2>
+      <p>Select an audio file to transcribe.</p>
+      <input type="file" id="audioInput" accept="audio/*">
+      <button onclick="goToStep(2)">Upload & Convert</button>
+    </div>
+
+    <div class="step" id="step2">
+      <div class="collapsible open" onclick="this.classList.toggle('open')">
+        <strong>Note:</strong> The system uses AI to detect sentiment.
+        <div class="collapsible-content">Review and adjust the transcribed text if needed to improve accuracy.</div>
+      </div>
+      <h2><i class='fas fa-brain'></i> Step 2: Intent & Sentiment Detection</h2>
+      <p>Analyze the text content below to determine intent and sentiment.</p>
+      <textarea id="transcribedText" placeholder="Transcribed text appears here...">Customer is frustrated with delays in service...</textarea>
+      <button onclick="goToStep(3)">Analyze</button>
+    </div>
+
+    <div class="step" id="step3">
+      <div class="collapsible open" onclick="this.classList.toggle('open')">
+        <strong>Note:</strong> Summary generation depends on clarity of input text.
+        <div class="collapsible-content">Please verify and edit transcribed text before summarizing.</div>
+      </div>
+      <h2><i class='fas fa-align-left'></i> Step 3: Generate Summary</h2>
+      <p>Summarize the conversation based on tone and resolution.</p>
+      <textarea readonly>Summary: The conversation was tense, but resolution was achieved with a refund offer.</textarea>
+      <button onclick="goToStep(4)">Generate Summary</button>
+    </div>
+
+    <div class="step" id="step4">
+      <div class="collapsible open" onclick="this.classList.toggle('open')">
+        <strong>Note:</strong> Review the dashboard carefully.
+        <div class="collapsible-content">Evaluate conversation effectiveness and resolution outcomes.</div>
+      </div>
+      <h2><i class='fas fa-chart-line'></i> Step 4: Conversation Report</h2>
+      <p>Here’s a structured report of the call based on the analysis:</p>
+      <div class="report">
+        <h3>Conversation ID: #12345</h3>
+        <p><strong>Participants:</strong> Customer, Support Agent</p>
+        <p><strong>Duration:</strong> 12 minutes</p>
+        <p><strong>Intent:</strong> Complaint about delayed service</p>
+        <p><strong>Sentiment:</strong> Negative → Neutral</p>
+        <p><strong>Summary:</strong> The customer expressed dissatisfaction with delayed service. The agent addressed concerns and offered a refund, leading to a neutral outcome.</p>
+        <p><strong>Resolution Status:</strong> Resolved</p>
+      </div>
+    </div>
+
+    <script>
+      let currentStep = 1;
+      function goToStep(step) {
+        currentStep = step;
+        updateSteps();
+      }
+      function updateSteps() {
+        const steps = document.querySelectorAll('.step');
+        const tabs = document.querySelectorAll('.tab');
+        steps.forEach((stepEl, index) => {
+          const stepNumber = index + 1;
+          stepEl.classList.toggle('active', stepNumber === currentStep);
+        });
+        tabs.forEach((tabEl, index) => {
+          const tabNumber = index + 1;
+          tabEl.classList.toggle('active', tabNumber === currentStep);
+        });
+      }
+      updateSteps();
+    </script>
+  </div>
+  <footer>
+    Version 1.0 — &copy; 2025 AI Hustle Squad. All rights reserved.
+  </footer>
+</body>
+</html>
