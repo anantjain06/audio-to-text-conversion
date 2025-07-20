@@ -16,8 +16,16 @@
 
 ## Please Copy-Paste the transcript for further apis for testing purpose.
 2. POST - http://127.0.0.1:8001/analysis
+
    api_data: 
    {"text": "....."}
+
+   Example : api-body:
+   {
+      "audio_file_path": "docs/test-audio-1.wav"
+   }
+
+   Create .env file and add `HUGGINGFACE_API_TOKEN` for summarization purpose
 
 3. POST - http://127.0.0.1:8001/summary
    api_data: 
@@ -61,3 +69,7 @@ Input: Meeting Recordings or Audio Recordings
 3. For Intent Detection going with `facebook/bart-large-mnli` model, with static labelings.
 4. For Topic Distribution, used same model as Intent Detection.
 5. For Generating MoM points used the same model as summarization but the task is `text-generation`.
+
+# Script Conversation
+tts.py - This file helps to create audio file using the script conversation.
+Use `test-audio-1.wav` this file for testing purpose.
