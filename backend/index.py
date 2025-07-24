@@ -160,4 +160,4 @@ def summary(transcript: Text):
         return {"Error in index.py - summary api": str(error)}
 
 if __name__ == "__main__":
-    uvicorn.run(app=app, host="172.29.128.148", port=8001, reload=False)
+    uvicorn.run(app=app, host="0.0.0.0", port=8001, reload=False)
