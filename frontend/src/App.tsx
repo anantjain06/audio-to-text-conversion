@@ -17,11 +17,17 @@ import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import UploadFile from "./pages/UploadFile";
+import Summary from "./pages/Summary";
+import Transcript from "./pages/Transcript";
 
 interface MediaProps {
   loading?: boolean;
   icons?: string;
   title?: string;
+}
+
+interface LoadingProps {
+  loading?: boolean;
 }
 
 const containerWidth_1 = "33%";
@@ -50,28 +56,28 @@ function Media(props: MediaProps) {
       {title === "Sentiments" ? (
         <CardContent>
           <Grid container wrap="nowrap" spacing={1}>
-          <LinearProgress
-            variant="determinate"
-            value={20}
-            sx={{ width: "40%", margin: "10px"}}
-          />
-          <Typography sx={{fontSize: "15px"}}>ABC</Typography>
+            <LinearProgress
+              variant="determinate"
+              value={20}
+              sx={{ width: "40%", margin: "10px" }}
+            />
+            <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
           </Grid>
           <Grid container wrap="nowrap" spacing={1}>
-          <LinearProgress
-            variant="determinate"
-            value={20}
-            sx={{ width: "40%", margin: "10px"}}
-          />
-          <Typography sx={{fontSize: "15px"}}>ABC</Typography>
+            <LinearProgress
+              variant="determinate"
+              value={20}
+              sx={{ width: "40%", margin: "10px" }}
+            />
+            <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
           </Grid>
           <Grid container wrap="nowrap" spacing={1}>
-          <LinearProgress
-            variant="determinate"
-            value={20}
-            sx={{ width: "40%", margin: "10px"}}
-          />
-          <Typography sx={{fontSize: "15px"}}>ABC</Typography>
+            <LinearProgress
+              variant="determinate"
+              value={20}
+              sx={{ width: "40%", margin: "10px" }}
+            />
+            <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
           </Grid>
         </CardContent>
       ) : (
@@ -85,12 +91,16 @@ function Media(props: MediaProps) {
   );
 }
 
-export default function App() {
+export default function App(props: LoadingProps) {
   const [showComponent, setShowComponent] = React.useState(false);
-  const [open, setOpen] = React.useState(false); // control modal directly
+  const [open, setOpen] = React.useState(false);
+  const [transcriptText, setTranscriptText] = React.useState("");
+
+  const { loading = false } = props;
 
   const handleButtonClick = () => {
-    setShowComponent(true); // Set state to true on button click
+    setShowComponent(true);
+    setOpen(true)
   };
 
   const handleClose = () => {
@@ -100,7 +110,11 @@ export default function App() {
   return (
     <>
       {/* <Button onClick={handleButtonClick}>Show Modal</Button> */}
-      <UploadFile open={open} handleClose={handleClose} />
+      <UploadFile
+        open={open}
+        handleClose={handleClose}
+        onTranscriptReady={(text) => setTranscriptText(text)}
+      />
       {/* <Stack spacing={1}> */}
       {/* For variant="text", adjust the height via font-size */}
       {/* {loading ? 
@@ -137,11 +151,12 @@ export default function App() {
           </AppBar>
         </Box>
         <Grid container wrap="nowrap" spacing={1}>
-          <Skeleton
+          {/* <Skeleton
             variant="rectangular"
             width={containerWidth_3}
             height={containerHeight_1}
-          />
+          /> */}
+          <Transcript text={transcriptText} />
         </Grid>
         <Grid container wrap="nowrap" spacing={1}>
           <Media
@@ -152,11 +167,15 @@ export default function App() {
           <Media icons="public/assets/icons/delegation.png" title="Topics" />
         </Grid>
         <Grid container wrap="nowrap" spacing={1}>
-          <Skeleton
-            variant="rectangular"
-            width={containerWidth_2}
-            height={containerHeight}
-          />
+          {loading ? (
+            <Skeleton
+              variant="rectangular"
+              width={containerWidth_2}
+              height={containerHeight}
+            />
+          ) : (
+            <Summary />
+          )}
           <Skeleton
             variant="rectangular"
             width={containerWidth_2}

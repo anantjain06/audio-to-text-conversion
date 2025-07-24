@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-import {transcript_api} from '../api/apis'
+import { transcript_api } from "../api/apis";
 
 const style = {
   position: "absolute",
@@ -34,23 +34,43 @@ const VisuallyHiddenInput = styled("input")({
 interface UploadFileProps {
   open: boolean;
   handleClose: () => void;
+  onTranscriptReady: (transcriptText: string) => void;
 }
 
-export default function UploadFile({ open, handleClose }: UploadFileProps) {
-  const get_file_details = (file_details: FileList | null) => {
+interface UploadFileProps {
+  open: boolean;
+  handleClose: () => void;
+  onTranscriptReady: (transcriptText: string) => void;
+  setLoading: (loading: boolean) => void;
+}
+
+export default function UploadFile({
+  open,
+  handleClose,
+  onTranscriptReady,
+}: UploadFileProps) {
+  const get_file_details = async (file_details: FileList | null) => {
     if (!file_details || file_details.length === 0) return;
-  
-    const allowedTypes = ['audio/mpeg', 'video/mp4', 'audio/wav'];
-  
+
+    const allowedTypes = ["audio/mpeg", "video/mp4", "audio/wav"];
     const file = file_details[0];
+
     if (!allowedTypes.includes(file.type)) {
-      alert('Only mp3, mp4, or wav files are allowed.');
+      alert("Only mp3, mp4, or wav files are allowed.");
       return;
     }
-  
-    console.log("File Details: ", file_details);
-    const text = transcript_api(file);
-    console.log("Text: ", text);
+
+    try {
+      const response = await transcript_api(file);
+      const text =
+        response?.data?.transcript || JSON.stringify(response?.data, null, 2);
+      console.log("Transcript received:", text);
+      onTranscriptReady(text);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      onTranscriptReady("Error fetching transcript.");
+    }
+
     handleClose();
   };
 
