@@ -19,6 +19,15 @@ topic_labels = config['DEFAULT'].get('topic_distribution_list')
 # """ 
 
 def topic_distribution(transcript):
+    """
+    Analyzes the given transcript and returns topic label scores using a pre-defined model pipeline.
+
+    Args:
+        transcript (str): The input text or speech transcription for topic classification.
+
+    Returns:
+        list or dict: A collection of topic labels with associated confidence scores.
+    """
     try:
         start = time.time()
         result = get_model_pipe(transcript, topic_labels)

@@ -20,6 +20,16 @@ sentiment_pipe = pipeline("text-classification", model=model_dir, tokenizer=mode
 # """
 
 def sentiment_analysis(transcript):
+    """
+    Performs sentiment analysis on the given transcript using a pre-defined pipeline.
+
+    Args:
+        transcript (str): The input text or speech transcription to analyze.
+
+    Returns:
+        dict: A dictionary containing the top sentiment label (e.g., 'POSITIVE', 'NEGATIVE', 'NEUTRAL') 
+              along with its confidence score.
+    """
     try:
         start = time.time()
         sentiment_labels_with_score = sentiment_pipe(transcript)

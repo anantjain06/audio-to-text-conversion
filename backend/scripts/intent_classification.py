@@ -19,6 +19,15 @@ intent_labels = config['DEFAULT'].get('intent_classification_list')
 # """ 
 
 def intent_classification(transcript):
+    """
+    Classifies the intent of the given transcript using a pre-defined model pipeline.
+
+    Args:
+        transcript (str): The input text or speech transcription to classify.
+
+    Returns:
+        dict: A dictionary or list containing the predicted intent labels along with their confidence scores.
+    """
     try:
         start = time.time()
         result = get_model_pipe(transcript, intent_labels)

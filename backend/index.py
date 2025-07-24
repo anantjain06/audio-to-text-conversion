@@ -53,39 +53,52 @@ app.add_middleware(
 UPLOAD_DIR = "../uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+# Root route for checking if the server is running
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+# Health check endpoint to monitor service status
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
 
+
 def get_file_locally(file):
     """
-    Save the uploaded file to the local filesystem.
+    Saves the uploaded file to the local filesystem.
+
     Args:
-        file (UploadFile): The uploaded file.
+        file (UploadFile): The uploaded audio or video file.
+
     Returns:
-        str: The file location where the file is saved.
+        str: Full file path where the uploaded file is saved.
     """
     file_location = os.path.join(UPLOAD_DIR, file.filename)
+    
+    # Save file in binary write mode
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+
     return file_location
 
+# Endpoint to handle file upload and perform transcription
 @app.post("/transcript")
 async def transcript(file: UploadFile = File(...)):
     """
-    Perform audio transcription, text analysis, and summarization.
-    Args:
-        data (Item): Contains the audio file path.
-    Returns:
-        dict: Contains the transcript.
-    """
+    Accepts an audio/video file, saves it locally, and transcribes it using Whisper.
 
+    Args:
+        file (UploadFile): The uploaded audio/video file.
+
+    Returns:
+        dict: Transcription result as plain text.
+    """
     try: 
+        # Save uploaded file locally
         file_path = get_file_locally(file)
+
+        # Perform transcription on the saved file
         transcript = transcript_audio(file_path)
 
         return {
@@ -93,43 +106,47 @@ async def transcript(file: UploadFile = File(...)):
         }
     
     except Exception as e:
+        # Handle any unexpected errors
         return {"Error in index.py - transcript api": str(e)}
-    
+
+# Endpoint to perform sentiment, intent, and topic analysis
 @app.post("/analysis")
 def analysis(transcript: Text):
+    """
+    Performs NLP-based analysis on the provided transcript.
+
+    Args:
+        transcript (Text): Object containing the transcript text.
+
+    Returns:
+        dict: Analysis results including sentiment, intent, and topic classification.
+    """
     try: 
         sentiment_result = sentiment_analysis(transcript.text)
         intent_result = intent_classification(transcript.text)
         topic_result = topic_distribution(transcript.text)
-
-        # loop = asyncio.get_event_loop()
-        # sentiment_future = loop.run_in_executor(executor, functools.partial(sentiment_analysis, transcript))
-        # intent_future = loop.run_in_executor(executor, functools.partial(intent_classification, transcript))
-        # topic_future = loop.run_in_executor(executor, functools.partial(topic_distribution, transcript))
-
-        # results = await asyncio.gather(sentiment_future, intent_future, topic_future)
-
-        # print("Results: ", results)
-        
-        # with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        #     future_sentiment = executor.submit(sentiment_analysis, transcript)
-        #     future_intent = executor.submit(intent_classification, transcript)
-        #     future_topic = executor.submit(topic_distribution, transcript)
-
-        # sentiment_result = future_sentiment.result()
-        # intent_result = future_intent.result()
-        # topic_result = future_topic.result()
 
         return {
             "sentiment_result": sentiment_result,
             "intent_result": intent_result,
             "topic_result": topic_result
         }
+
     except Exception as error:
         return {"Error in index.py - analysis api": str(error)}
 
+# Endpoint to generate summary and minutes of meeting
 @app.post("/summary")
 def summary(transcript: Text):
+    """
+    Generates a summary and key action points from the transcript.
+
+    Args:
+        transcript (Text): Object containing the transcript text.
+
+    Returns:
+        dict: Summary text and a list of key discussion points.
+    """
     try:
         summary = text_summarization(transcript.text)
         points = mom_generator(transcript.text)
@@ -138,10 +155,9 @@ def summary(transcript: Text):
             "summary": summary, 
             "points": points
         }
-    
+
     except Exception as error:
         return {"Error in index.py - summary api": str(error)}
 
-
 if __name__ == "__main__":
-    uvicorn.run(app=app, host="127.0.0.1", port=8001, reload=False)
+    uvicorn.run(app=app, host="172.29.128.148", port=8001, reload=False)

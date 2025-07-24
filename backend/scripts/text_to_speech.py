@@ -1,12 +1,14 @@
+# Used for testing purpose only.
 from gtts import gTTS
 
 language = 'en'
 
 def text_to_speech(conversation):
     """
-    Convert a list of conversation strings into a single audio file using gTTS.
+    Converts a list of conversation strings into a single audio file using gTTS (Google Text-to-Speech).
+
     Args:
-        conversation (list): List of conversation strings.
+        conversation (list): List of strings, where each string represents a line or message in the conversation.
     """
 
     # mytext = " ".join(conversation).replace(':', ' says')

@@ -22,34 +22,46 @@ model = whisper.load_model(transcript_model)
 
 def convert_to_wav(file_path):
     """
-    Converts MP4 or MP3 to WAV format using moviepy.
-    Returns the path to the converted .wav file.
-    """
-    base, ext = os.path.splitext(file_path)
-    output_path = f"raw_audio/{base}.wav"
+    Converts an MP4 or MP3 file to WAV format using MoviePy.
 
-    if ext.lower() == ".mp4":
-        video = VideoFileClip(file_path)
-        video.audio.write_audiofile(output_path)
-    elif ext.lower() == ".mp3":
-        audio = AudioFileClip(file_path)
-        audio.write_audiofile(output_path)
-    
-    return output_path
+    Args:
+        file_path (str): Path to the input MP4 or MP3 file.
+
+    Returns:
+        str or None: Path to the converted .wav file if successful, else None.
+    """
+    try:
+        base, ext = os.path.splitext(file_path)
+        output_path = f"{base}.wav"
+
+        if ext.lower() == ".mp4":
+            video = VideoFileClip(file_path)
+            video.audio.write_audiofile(output_path)
+        elif ext.lower() == ".mp3":
+            audio = AudioFileClip(file_path)
+            audio.write_audiofile(output_path)
+            
+        return output_path
+    except Exception as error:
+        print(f"Error in converting to wav file: {str(error)}")
+        return None
 
 def transcript_audio(audio_file_path):
     """
-    Transcribe audio using the Whisper model.
-    Accepts mp4, mp3, and wav. Converts to wav if needed.
-    
+    Transcribes audio using the Whisper model.
+    Supports .mp4, .mp3, and .wav files. Converts non-wav formats to .wav before transcription.
+
+    Args:
+        audio_file_path (str): Path to the audio or video file to transcribe.
+
     Returns:
-        str: Transcribed text from the audio file.
+        str or None: Transcribed text if successful, otherwise None.
     """
     try: 
         start = time.time()
 
         mime_type, _ = mimetypes.guess_type(audio_file_path)
-        allowed_types = ['audio/mpeg', 'video/mp4', 'audio/wav']
+        allowed_types = ['audio/mpeg', 'video/mp4', 'audio/wav', 'audio/x-wav']
 
         if mime_type not in allowed_types:
             raise ValueError(f"Unsupported file type: {mime_type}")
