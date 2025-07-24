@@ -37,11 +37,21 @@ interface UploadFileProps {
 }
 
 export default function UploadFile({ open, handleClose }: UploadFileProps) {
-  const get_file_details = (file_details: any) =>{
-    console.log("File Details: ", file_details)
-    const text = transcript_api(file_details[0]);
-    console.log("Text: ", text)
-    handleClose()
+  const get_file_details = (file_details: FileList | null) => {
+    if (!file_details || file_details.length === 0) return;
+  
+    const allowedTypes = ['audio/mpeg', 'video/mp4', 'audio/wav'];
+  
+    const file = file_details[0];
+    if (!allowedTypes.includes(file.type)) {
+      alert('Only mp3, mp4, or wav files are allowed.');
+      return;
+    }
+  
+    console.log("File Details: ", file_details);
+    const text = transcript_api(file);
+    console.log("Text: ", text);
+    handleClose();
   };
 
   return (
@@ -65,6 +75,7 @@ export default function UploadFile({ open, handleClose }: UploadFileProps) {
           Upload files
           <VisuallyHiddenInput
             type="file"
+            accept=".mp3, .mp4, .wav"
             onChange={(event) => get_file_details(event.target.files)}
             multiple
           />
