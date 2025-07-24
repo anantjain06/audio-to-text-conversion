@@ -24,6 +24,15 @@ import asyncio
 import os
 import shutil
 
+# Config Imports
+import configparser
+
+# Load configuration
+config = configparser.ConfigParser()
+config.read('code.config')
+
+origin_list = config['DEFAULT']['origin_list']
+
 # Define a Pydantic model for the item
 class Text(BaseModel):
     text: str
@@ -35,7 +44,7 @@ app = FastAPI()
 # Allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500"],
+    allow_origins=origin_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -72,7 +81,7 @@ async def transcript(file: UploadFile = File(...)):
     Args:
         data (Item): Contains the audio file path.
     Returns:
-        dict: Contains the transcript, sentiment analysis, intent classification, and summary.
+        dict: Contains the transcript.
     """
 
     try: 
@@ -88,7 +97,6 @@ async def transcript(file: UploadFile = File(...)):
     
 @app.post("/analysis")
 def analysis(transcript: Text):
-
     try: 
         sentiment_result = sentiment_analysis(transcript.text)
         intent_result = intent_classification(transcript.text)
