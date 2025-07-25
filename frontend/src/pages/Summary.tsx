@@ -12,6 +12,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import DownloadIcon from "@mui/icons-material/Download";
 
 import { summary_api } from "../api/apis";
+import { APP_LABELS } from "../core/constants/Labels";
 
 interface TranscriptProps {
   text: string;
@@ -80,7 +81,7 @@ export default function Summary({ text }: TranscriptProps) {
             overflowWrap: "anywhere", 
           }}
         >
-          <pre
+          <span
             style={{
               margin: 0,
               fontFamily: "inherit",
@@ -90,7 +91,7 @@ export default function Summary({ text }: TranscriptProps) {
             }}
           >
             {content || `No ${title.toLowerCase()} loaded yet.`}
-          </pre>
+          </span>
         </Typography>
       </CardContent>
     </Card>
@@ -98,8 +99,8 @@ export default function Summary({ text }: TranscriptProps) {
 
   return (
     <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
-      {renderCard("Summary", summary, "summary.txt")}
-      {renderCard("Minutes of Meeting", mom, "mom.txt")}
+      {renderCard(APP_LABELS.STEP2_TITLE, summary, "summary.txt")}
+      {renderCard(APP_LABELS.STEP3_TITLE, mom, "mom.txt")}
     </div>
   );
 }

@@ -15,21 +15,22 @@ import {
 import { PieChart } from "@mui/x-charts/PieChart";
 
 import { analysis_api } from "../api/apis";
+import { APP_LABELS } from "../core/constants/Labels";
 
 const containerWidth_1 = "33%";
 
 const cardConfigs = [
   {
-    title: "Sentiments",
-    icon: "assets/icons/sentiment-analysis.png",
+    title: APP_LABELS.STEP4_SUBTITLE1,
+    icon: APP_LABELS.STEP4_SUBTITLE1_ICON,
   },
   {
-    title: "Intents",
-    icon: "assets/icons/target.png",
+    title: APP_LABELS.STEP4_SUBTITLE2,
+    icon: APP_LABELS.STEP4_SUBTITLE2_ICON,
   },
   {
-    title: "Topics",
-    icon: "assets/icons/delegation.png",
+    title: APP_LABELS.STEP4_SUBTITLE3,
+    icon: APP_LABELS.STEP4_SUBTITLE3_ICON,
   },
 ];
 
@@ -69,9 +70,9 @@ export default function Analysis({ text }: TranscriptProps) {
     <Grid container wrap="nowrap" spacing={1}>
       {cardConfigs.map((config) => {
         const { title, icon } = config;
-        const isSentiments = title === "Sentiments";
-        const isIntents = title === "Intents";
-        const isTopics = title === "Topics";
+        const isSentiments = title === APP_LABELS.STEP4_SUBTITLE1;
+        const isIntents = title === APP_LABELS.STEP4_SUBTITLE2;
+        const isTopics = title === APP_LABELS.STEP4_SUBTITLE3;
 
         return (
           <Card key={title} sx={{ width: containerWidth_1, m: 2 }}>

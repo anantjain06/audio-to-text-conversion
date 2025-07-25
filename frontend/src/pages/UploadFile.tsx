@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import * as React from "react";
 
 import { transcript_api } from "../api/apis";
 
@@ -43,6 +44,9 @@ export default function UploadFile({
   handleClose,
   onTranscriptReady,
 }: UploadFileProps) {
+
+  const [showLoader, setShowLoader] = React.useState(false);
+
   const get_file_details = async (file_details: FileList | null) => {
     if (!file_details || file_details.length === 0) return;
 
@@ -55,6 +59,7 @@ export default function UploadFile({
     }
     handleClose();
     try {
+      onTranscriptReady('loading');
       const response = await transcript_api(file);
       const text =
         response?.data?.transcript || JSON.stringify(response?.data, null, 2);

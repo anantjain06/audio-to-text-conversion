@@ -1,12 +1,10 @@
 import * as React from "react";
-import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   AppBar,
   Button,
   Box,
   Grid,
-  IconButton,
   Stack,
   Toolbar,
   Typography,
@@ -16,6 +14,8 @@ import UploadFile from "./pages/UploadFile";
 import Summary from "./pages/Summary";
 import Transcript from "./pages/Transcript";
 import Analysis from "./pages/Analysis";
+import { APP_LABELS } from "./core/constants/Labels";
+
 
 export default function App() {
   const [showComponent, setShowComponent] = React.useState(false);
@@ -42,26 +42,24 @@ export default function App() {
       />
       <Stack spacing={1}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+          <AppBar   color="inherit"position="fixed">
             <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Call Analysis & Summarizer
+              <Box
+                component="img"
+                sx={{ height: 40, mr: 2 }}
+                alt="App Logo"
+                src="./transcript.png" // Replace with your image path
+              />
+              <Typography variant="h6"  sx={{ flexGrow: 1 }}>
+                {APP_LABELS.APP_TITLE}
               </Typography>
-              <Button color="inherit" onClick={handleButtonClick}>
-                Upload File
+              <Button variant="contained" color="success" onClick={handleButtonClick}>
+               {APP_LABELS.BUTTONS.UPLOAD}
               </Button>
             </Toolbar>
           </AppBar>
         </Box>
+        <Toolbar />
         <Grid container wrap="nowrap" spacing={1}>
           <Transcript text={transcriptText} />
         </Grid>
