@@ -3,34 +3,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   AppBar,
-  Avatar,
   Button,
   Box,
-  Card,
-  CardHeader,
-  CardContent,
   Grid,
   IconButton,
-  Skeleton,
   Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
-
-
 
 import UploadFile from "./pages/UploadFile";
 import Summary from "./pages/Summary";
 import Transcript from "./pages/Transcript";
 import Analysis from "./pages/Analysis";
 
-
-interface LoadingProps {
-  loading?: boolean;
-}
-
-
-export default function App(props: LoadingProps) {
+export default function App() {
   const [showComponent, setShowComponent] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [transcriptText, setTranscriptText] = React.useState("");
@@ -53,7 +40,6 @@ export default function App(props: LoadingProps) {
         handleClose={handleClose}
         onTranscriptReady={(text) => setTranscriptText(text)}
       />
-      {/* </Stack> */}
       <Stack spacing={1}>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static">
@@ -71,28 +57,16 @@ export default function App(props: LoadingProps) {
                 Title
               </Typography>
               <Button color="inherit" onClick={handleButtonClick}>
-                Show Modal
+                Upload File
               </Button>
             </Toolbar>
           </AppBar>
         </Box>
         <Grid container wrap="nowrap" spacing={1}>
-          {/* <Skeleton
-            variant="rectangular"
-            width={containerWidth_3}
-            height={containerHeight_1}
-          /> */}
           <Transcript text={transcriptText} />
         </Grid>
-        <Grid container wrap="nowrap" spacing={1}>
-          <Analysis
-            icons="public/assets/icons/sentiment-analysis.png"
-            title="Sentiments"
-          />
-          <Analysis icons="public/assets/icons/target.png" title="Intents" />
-          <Analysis icons="public/assets/icons/delegation.png" title="Topics" />
-        </Grid>
-        <Summary />;
+        <Summary text={transcriptText} />
+        <Analysis text={transcriptText} />
       </Stack>
     </>
   );

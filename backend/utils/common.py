@@ -1,5 +1,5 @@
 # Basic Prompts
-import os
+import re
 from datetime import datetime
 
 # HuggingFace Transformer Imports
@@ -50,7 +50,6 @@ def load_summary_prompt(transcript):
     """
     with open('prompts/summary_prompt.md', "r") as f:
         return f.read().format(
-            current_date_and_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             transcript=transcript
         )
 
@@ -66,6 +65,5 @@ def load_mom_generator_prompt(transcript):
     """
     with open('prompts/minutes_prompts.md', "r") as f:
         return f.read().format(
-            current_date_and_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             transcript=transcript
         )

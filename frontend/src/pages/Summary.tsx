@@ -1,98 +1,3 @@
-// import Card from "@mui/material/Card";
-// import CardHeader from "@mui/material/CardHeader";
-// import CardContent from "@mui/material/CardContent";
-// import IconButton from "@mui/material/IconButton";
-// import Typography from "@mui/material/Typography";
-// import { Button, Stack } from "@mui/material";
-// import FileCopyIcon from "@mui/icons-material/FileCopy";
-// import DownloadIcon from "@mui/icons-material/Download";
-// import SendIcon from "@mui/icons-material/Send";
-// import { useState } from "react";
-
-// import { summary_api } from "../api/apis";
-
-// interface SummaryProps {
-//   onSummaryReady: (summary: string, mom: string) => void;
-// }
-
-// export default function Summary({ onSummaryReady }: SummaryProps) {
-//   const transcript = localStorage.getItem("transcript");
-//   const [summary, setSummary] = useState<string>("");
-//   const [mom, setMom] = useState<string>("");
-//   const get_summary = async () => {
-//     if (!transcript) {
-//       alert("No transcript found.");
-//       return;
-//     }
-
-//     try {
-//       const response = await summary_api(transcript);
-//       const summaryText = response?.summary;
-//       const momText = response?.points;
-
-//       if (summaryText || momText) {
-//         setSummary(summaryText || "");
-//         setMom(momText || "");
-//         onSummaryReady(summaryText || "", momText || "");
-//       } else {
-//         alert("Summary generation failed.");
-//       }
-//     } catch (err) {
-//       console.error("Summary API error:", err);
-//       alert("Error getting summary.");
-//     }
-//     // finally {
-//     // setLoading(false);
-//     // }
-//   };
-
-//   const handleCopy = () => {
-//     if (summary) {
-//       navigator.clipboard.writeText(summary);
-//     }
-//   };
-
-//   const handleDownload = () => {
-//     if (summary) {
-//       const blob = new Blob([summary], { type: "text/plain" });
-//       const link = document.createElement("a");
-//       link.href = URL.createObjectURL(blob);
-//       link.download = "summary.txt";
-//       document.body.appendChild(link);
-//       link.click();
-//       document.body.removeChild(link);
-//     }
-//   };
-
-//   return (
-//     <Card sx={{ maxWidth: 345 }}>
-//       <CardHeader
-//         action={
-//           <Stack direction="row" spacing={1}>
-//             <IconButton onClick={get_summary} aria-label="send">
-//               <SendIcon />
-//             </IconButton>
-//             <IconButton onClick={handleCopy} aria-label="copy">
-//               <FileCopyIcon />
-//             </IconButton>
-//             <IconButton onClick={handleDownload} aria-label="download">
-//               <DownloadIcon />
-//             </IconButton>
-//           </Stack>
-//         }
-//         title="Summary"
-//       />
-//       <CardContent>
-//         <Typography
-//           variant="body2"
-//           sx={{ color: "text.secondary", whiteSpace: "pre-wrap" }}
-//         >
-//           {summary || "No summary loaded yet."}
-//         </Typography>
-//       </CardContent>
-//     </Card>
-//   );
-// }
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -102,27 +7,23 @@ import {
   Stack,
   IconButton,
 } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+// import SendIcon from "@mui/icons-material/Send";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import DownloadIcon from "@mui/icons-material/Download";
-import { summary_api } from "../api/apis";
-// import { summary_api } from "../api/summary";
-// import { transcript_api } from "../api/transcript";
 
-export default function Summary() {
-  const [transcript, setTranscript] = useState("");
+import { summary_api } from "../api/apis";
+
+interface TranscriptProps {
+  text: string;
+}
+
+export default function Summary({ text }: TranscriptProps) {
   const [summary, setSummary] = useState("");
   const [mom, setMom] = useState("");
 
-  useEffect(() => {
-    // getTranscript();
-  }, []);
-
-  const getSummary = async (data?: string) => {
+  const getSummary = async () => {
     try {
-      const text = localStorage.getItem("transcript");
       if (!text) return;
-      // const transcript = localStorage.getItem("transcript");
       const response = await summary_api(text);
       setSummary(response?.summary || "No summary returned.");
       setMom(response?.points || "No MoM returned.");
@@ -130,6 +31,12 @@ export default function Summary() {
       console.error("Summary error", err);
     }
   };
+
+  useEffect(() => {
+      if (text.length > 0) {
+        getSummary();
+      }
+    }, [text]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -149,18 +56,12 @@ export default function Summary() {
     title: string,
     content: string,
     filename: string,
-    get_summary?: () => void
   ) => (
-    <Card sx={{ maxWidth: 345, flex: 1 }}>
+    <Card sx={{width: "50%", height: "40vh", m: 2}}>
       <CardHeader
         title={title}
         action={
           <Stack direction="row" spacing={1}>
-            {get_summary && (
-              <IconButton onClick={get_summary} aria-label="send">
-                <SendIcon />
-              </IconButton>
-            )}
             <IconButton onClick={() => handleCopy(content)} aria-label="copy">
               <FileCopyIcon />
             </IconButton>
@@ -185,8 +86,8 @@ export default function Summary() {
   );
 
   return (
-    <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-      {renderCard("Summary", summary, "summary.txt", getSummary)}
+    <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+      {renderCard("Summary", summary, "summary.txt")}
       {renderCard("Minutes of Meeting", mom, "mom.txt")}
     </div>
   );

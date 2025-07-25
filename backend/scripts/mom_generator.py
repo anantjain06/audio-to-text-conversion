@@ -63,6 +63,8 @@ def mom_generator(transcript):
         messages = create_prompt(transcript)
         ai_msg = chat_model.invoke(messages)
 
+        print("ai_msg: ", ai_msg.content)
+
         end = time.time()
         print(f"Generation completed in {end - start:.2f} seconds.")
 

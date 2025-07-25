@@ -1,11 +1,9 @@
-import React from "react";
 import { Card, CardHeader, CardContent } from "@mui/material";
-
 interface TranscriptProps {
   text: string;
 }
 
-const Transcript: React.FC<TranscriptProps> = ({ text }) => {
+export default function Transcript({ text }: TranscriptProps) {
   return (
     <Card sx={{ width: "100%", m: 2 }}>
       <CardHeader title="Conversation" />
@@ -16,6 +14,4 @@ const Transcript: React.FC<TranscriptProps> = ({ text }) => {
       </CardContent>
     </Card>
   );
-};
-
-export default Transcript;
+}

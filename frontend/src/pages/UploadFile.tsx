@@ -31,12 +31,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-// interface UploadFileProps {
-//   open: boolean;
-//   handleClose: () => void;
-//   onTranscriptReady: (transcriptText: string) => void;
-// }
-
 interface UploadFileProps {
   open: boolean;
   handleClose: () => void;
@@ -59,20 +53,17 @@ export default function UploadFile({
       alert("Only mp3, mp4, or wav files are allowed.");
       return;
     }
-
+    handleClose();
     try {
       const response = await transcript_api(file);
       const text =
         response?.data?.transcript || JSON.stringify(response?.data, null, 2);
-      localStorage.setItem("transcript", text);
       console.log("Transcript received:", text);
       onTranscriptReady(text);
     } catch (error) {
       console.error("Error uploading file:", error);
       onTranscriptReady("Error fetching transcript.");
     }
-
-    handleClose();
   };
 
   return (
@@ -83,7 +74,7 @@ export default function UploadFile({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography id="modal-modal-title" variant="h6" component="h6">
           Upload the meet recordings.
         </Typography>
         <Button
