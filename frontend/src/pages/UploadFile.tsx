@@ -31,17 +31,17 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-interface UploadFileProps {
-  open: boolean;
-  handleClose: () => void;
-  onTranscriptReady: (transcriptText: string) => void;
-}
+// interface UploadFileProps {
+//   open: boolean;
+//   handleClose: () => void;
+//   onTranscriptReady: (transcriptText: string) => void;
+// }
 
 interface UploadFileProps {
   open: boolean;
   handleClose: () => void;
   onTranscriptReady: (transcriptText: string) => void;
-  setLoading: (loading: boolean) => void;
+  // setLoading: (loading: boolean) => void;
 }
 
 export default function UploadFile({

@@ -3,7 +3,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { Button, Stack } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import DownloadIcon from "@mui/icons-material/Download";
 import SendIcon from "@mui/icons-material/Send";
@@ -38,7 +38,7 @@ export default function Summary() {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{width: "50%", height: "40vh", m: 2}} >
       <CardHeader
         action={
           <Stack direction="row" spacing={1}>

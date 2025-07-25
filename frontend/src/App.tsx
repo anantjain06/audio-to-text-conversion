@@ -1,20 +1,25 @@
 import * as React from "react";
-
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
+
+import {
+  AppBar,
+  Avatar,
+  Button,
+  Box,
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  IconButton,
+  Skeleton,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+
 import LinearProgress from "@mui/material/LinearProgress";
+import CircularProgress from "@mui/material/CircularProgress";
+import { PieChart } from "@mui/x-charts/PieChart";
 
 import UploadFile from "./pages/UploadFile";
 import Summary from "./pages/Summary";
@@ -41,6 +46,10 @@ function Media(props: MediaProps) {
   const { icons = "null" } = props;
   const { title = "null" } = props;
 
+  const isSentiments = title === "Sentiments";
+  const isIntents = title === "Intents";
+  const isTopics = title === "Topics";
+
   return (
     <Card sx={{ width: containerWidth_1, m: 2 }}>
       <CardHeader
@@ -53,31 +62,42 @@ function Media(props: MediaProps) {
         }
         title={title}
       />
-      {title === "Sentiments" ? (
+      {isSentiments ? (
+        <CardContent>
+          {[1, 2, 3].map((_, index) => (
+            <Grid key={index} container wrap="nowrap" spacing={1}>
+              <LinearProgress
+                variant="determinate"
+                value={20}
+                sx={{ width: "40%", margin: "10px" }}
+              />
+              <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
+            </Grid>
+          ))}
+        </CardContent>
+      ) : isIntents ? (
+        <CardContent>
+          {[1, 2, 3].map((_, index) => (
+            <Grid key={index} container wrap="nowrap" spacing={1}>
+              <CircularProgress variant="determinate" value={25} />
+              <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
+            </Grid>
+          ))}
+        </CardContent>
+      ) : isTopics ? (
         <CardContent>
           <Grid container wrap="nowrap" spacing={1}>
-            <LinearProgress
-              variant="determinate"
-              value={20}
-              sx={{ width: "40%", margin: "10px" }}
+            <PieChart
+              series={[
+                {
+                  data: [
+                    { id: 0, value: 33, label: "ABC" },
+                    { id: 1, value: 33, label: "ABC" },
+                    { id: 2, value: 33, label: "ABC" },
+                  ],
+                },
+              ]}
             />
-            <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
-          </Grid>
-          <Grid container wrap="nowrap" spacing={1}>
-            <LinearProgress
-              variant="determinate"
-              value={20}
-              sx={{ width: "40%", margin: "10px" }}
-            />
-            <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
-          </Grid>
-          <Grid container wrap="nowrap" spacing={1}>
-            <LinearProgress
-              variant="determinate"
-              value={20}
-              sx={{ width: "40%", margin: "10px" }}
-            />
-            <Typography sx={{ fontSize: "15px" }}>ABC</Typography>
           </Grid>
         </CardContent>
       ) : (
@@ -100,7 +120,7 @@ export default function App(props: LoadingProps) {
 
   const handleButtonClick = () => {
     setShowComponent(true);
-    setOpen(true)
+    setOpen(true);
   };
 
   const handleClose = () => {
