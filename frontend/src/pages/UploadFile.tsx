@@ -64,6 +64,7 @@ export default function UploadFile({
       const response = await transcript_api(file);
       const text =
         response?.data?.transcript || JSON.stringify(response?.data, null, 2);
+      localStorage.setItem("transcript", text);
       console.log("Transcript received:", text);
       onTranscriptReady(text);
     } catch (error) {
