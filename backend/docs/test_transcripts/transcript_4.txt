@@ -1,0 +1,32 @@
+conversation="""
+Good morning, everyone. Let’s jump in. Alex, do you want to start with your update?
+Yeah, sure. So, we completed the integration of the feedback module last night. It's up on staging and ready for QA to take a look.
+Thanks, Alex. Has QA been notified?
+I sent a Slack message to Priya this morning. Priya, did you get a chance to check?
+Yes, I saw it. We’ll begin testing today. If we find anything critical, we’ll tag it for hotfix before the demo.
+Great. Maya, any updates on the design front?
+Yes, the revised UI for the dashboard is done. I’ve uploaded the Figma link to the shared folder. I'm starting the mobile versions this afternoon.
+Perfect. Please make sure the mobile view stays aligned with the design system we finalized last sprint.
+Will do.
+By the way, I had a call with the client yesterday. James mentioned they want to move the demo up to Thursday instead of Friday.
+That’s a bit tight. We’ll need to freeze the build by Tuesday if we’re aiming for that.
+Agreed. Priya, will QA be able to wrap up testing by then?
+If we get the final API from the backend team today, then yes. Otherwise, we’ll have to prioritize test cases.
+Alex, any word from backend?
+I followed up with Arjun this morning. He said the payment API documentation will be ready by end of day.
+Let’s hold them to that. If there’s no update by noon tomorrow, I’ll escalate.
+Sounds good. Also, there’s a dependency on the analytics module for reporting. Ethan, any progress there?
+Yes. The tracking events are implemented. What’s pending is finalizing the schema for the export.
+Alright, can we aim to close that by EOD tomorrow?
+That’s doable.
+One more thing—IT flagged a patch for the cloud servers. It’s a minor update but might require us to retest authentication flows.
+Thanks for the heads-up. Priya, just add that to the checklist.
+Noted.
+Okay. Any other concerns before we wrap up?
+Nope, I’m good.
+All set on my end.
+Same here.
+Alright then. Let’s target Tuesday EOD for freezing the build. Thanks, everyone. Great work.
+Thanks!
+Thanks, bye.
+"""

@@ -1,0 +1,11 @@
+conversation="""
+    "Agent: Hello, this is MedCare. How can I help you?",
+    "Customer: Hi, I’d like to book a consultation with Dr. Sharma for tomorrow.",
+    "Agent: Certainly. Is this for a follow-up or a new appointment?",
+    "Customer: It’s a follow-up for my diabetes checkup.",
+    "Agent: Got it. Dr. Sharma is available at 11 AM and 3 PM tomorrow. Which slot would you prefer?",
+    "Customer: 11 AM, please.",
+    "Agent: Your appointment is confirmed for tomorrow at 11 AM. Anything else I can assist you with?",
+    "Customer: No, that’s all. Thanks for the quick help!",
+    "Agent: You’re welcome. Take care!",
+"""
