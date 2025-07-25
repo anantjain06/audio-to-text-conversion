@@ -33,10 +33,10 @@ export default function Summary({ text }: TranscriptProps) {
   };
 
   useEffect(() => {
-      if (text.length > 0) {
-        getSummary();
-      }
-    }, [text]);
+    if (text.length > 0) {
+      getSummary();
+    }
+  }, [text]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -52,12 +52,8 @@ export default function Summary({ text }: TranscriptProps) {
     window.URL.revokeObjectURL(url);
   };
 
-  const renderCard = (
-    title: string,
-    content: string,
-    filename: string,
-  ) => (
-    <Card sx={{width: "50%", height: "40vh", m: 2}}>
+  const renderCard = (title: string, content: string, filename: string) => (
+    <Card sx={{ width: "50%", height: "40vh", m: 2 }}>
       <CardHeader
         title={title}
         action={
@@ -74,12 +70,27 @@ export default function Summary({ text }: TranscriptProps) {
           </Stack>
         }
       />
-      <CardContent>
+      <CardContent sx={{ maxHeight: "200px", overflowY: "auto" }}>
         <Typography
           variant="body2"
-          sx={{ color: "text.secondary", whiteSpace: "pre-wrap" }}
+          sx={{
+            color: "text.secondary",
+            whiteSpace: "pre-wrap", 
+            wordBreak: "break-word", 
+            overflowWrap: "anywhere", 
+          }}
         >
-          {content || `No ${title.toLowerCase()} loaded yet.`}
+          <pre
+            style={{
+              margin: 0,
+              fontFamily: "inherit",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              overflowWrap: "anywhere",
+            }}
+          >
+            {content || `No ${title.toLowerCase()} loaded yet.`}
+          </pre>
         </Typography>
       </CardContent>
     </Card>
@@ -92,4 +103,3 @@ export default function Summary({ text }: TranscriptProps) {
     </div>
   );
 }
-

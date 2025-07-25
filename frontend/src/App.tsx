@@ -54,7 +54,7 @@ export default function App() {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Title
+                Call Analysis & Summarizer
               </Typography>
               <Button color="inherit" onClick={handleButtonClick}>
                 Upload File

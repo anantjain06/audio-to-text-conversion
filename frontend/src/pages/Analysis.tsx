@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardContent,
   Grid,
-  Skeleton,
   Typography,
   LinearProgress,
   CircularProgress,
@@ -18,7 +17,6 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { analysis_api } from "../api/apis";
 
 const containerWidth_1 = "33%";
-const containerHeight = "40vh";
 
 const cardConfigs = [
   {
@@ -40,6 +38,8 @@ interface TranscriptProps {
 }
 
 export default function Analysis({ text }: TranscriptProps) {
+  const [hasFetched, setHasFetched] = useState(false);
+
   const [sentiments, setSentiments] = useState<any[]>([]);
   const [intents, setIntents] = useState<any[]>([]);
   const [topics, setTopics] = useState<any[]>([]);
@@ -48,12 +48,13 @@ export default function Analysis({ text }: TranscriptProps) {
     try {
       if (!text) return;
       const response = await analysis_api(text);
-      console.log("response>>", response);
+      setHasFetched(true);
 
       setSentiments(response?.sentiment_result || []);
       setIntents(response?.intent_result || []);
       setTopics(response?.topic_result || []);
     } catch (err) {
+      setHasFetched(true);
       console.error("Analysis error", err);
     }
   };
@@ -140,13 +141,18 @@ export default function Analysis({ text }: TranscriptProps) {
                 />
               )}
 
-              {!sentiments.length && !intents.length && !topics.length && (
-                <Skeleton
-                  sx={{ height: containerHeight }}
-                  animation="wave"
-                  variant="rectangular"
-                />
-              )}
+              {!hasFetched ? (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.secondary",
+                    fontStyle: "italic",
+                    textAlign: "center",
+                  }}
+                >
+                  No analysis yet.
+                </Typography>
+              ) : null}
             </CardContent>
           </Card>
         );
