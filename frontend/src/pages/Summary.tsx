@@ -6,10 +6,14 @@ import {
   Typography,
   Stack,
   IconButton,
+  Avatar,
 } from "@mui/material";
 // import SendIcon from "@mui/icons-material/Send";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import DownloadIcon from "@mui/icons-material/Download";
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+
 
 import { summary_api } from "../api/apis";
 import { APP_LABELS } from "../core/constants/Labels";
@@ -57,14 +61,20 @@ export default function Summary({ text }: TranscriptProps) {
     <Card sx={{ width: "50%", height: "40vh", m: 2 }}>
       <CardHeader
         title={title}
+        avatar={
+          <Avatar sx={{ bgcolor: 'primary.main' }}>
+           {title === 'Summary' ? <SummarizeIcon /> : <MeetingRoomIcon/>}
+          </Avatar>
+        }
         action={
           <Stack direction="row" spacing={1}>
-            <IconButton onClick={() => handleCopy(content)} aria-label="copy">
+            <IconButton onClick={() => handleCopy(content)} aria-label="copy"  sx={{ bgcolor: 'success.main', color:'success.contrastText' }}>
               <FileCopyIcon />
             </IconButton>
             <IconButton
               onClick={() => handleDownload(content, filename)}
               aria-label="download"
+              sx={{ bgcolor: 'success.main', color:'success.contrastText' }}
             >
               <DownloadIcon />
             </IconButton>

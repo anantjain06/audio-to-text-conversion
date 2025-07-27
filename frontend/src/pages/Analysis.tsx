@@ -16,6 +16,9 @@ import { PieChart } from "@mui/x-charts/PieChart";
 
 import { analysis_api } from "../api/apis";
 import { APP_LABELS } from "../core/constants/Labels";
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import TopicIcon from '@mui/icons-material/Topic';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 
 const containerWidth_1 = "33%";
 
@@ -60,6 +63,19 @@ export default function Analysis({ text }: TranscriptProps) {
     }
   };
 
+  const getIconByTitle = (title:string) => {
+    switch (title) {
+      case 'Intents':
+        return <GpsFixedIcon />;
+      case 'Sentiments':
+        return <SentimentSatisfiedAltIcon />;
+      case 'Topics':
+        return <TopicIcon />;
+      default:
+        return <TopicIcon />;
+    }
+};
+
   useEffect(() => {
     if (text.length > 0) {
       getAnalysis();
@@ -69,7 +85,7 @@ export default function Analysis({ text }: TranscriptProps) {
   return (
     <Grid container wrap="nowrap" spacing={1}>
       {cardConfigs.map((config) => {
-        const { title, icon } = config;
+        const { title } = config;
         const isSentiments = title === APP_LABELS.STEP4_SUBTITLE1;
         const isIntents = title === APP_LABELS.STEP4_SUBTITLE2;
         const isTopics = title === APP_LABELS.STEP4_SUBTITLE3;
@@ -78,11 +94,9 @@ export default function Analysis({ text }: TranscriptProps) {
           <Card key={title} sx={{ width: containerWidth_1, m: 2 }}>
             <CardHeader
               avatar={
-                <Avatar
-                  alt="icons"
-                  src={icon}
-                  sx={{ width: "40px", height: "40px" }}
-                />
+                  <Avatar sx={{ bgcolor: 'primary.main' }}>
+                    {getIconByTitle(title)}
+                  </Avatar>
               }
               title={title}
             />

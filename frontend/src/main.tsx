@@ -20,7 +20,8 @@ const theme = createTheme({
     },
     success: {
       main: '#2e7d32',        // Rich Green - for success buttons
-      contrastText: '#ffffff'
+      contrastText: '#ffffff',
+      dark: '#1b5e20'
     },
     background: {
       default: '#f3ece9',     // Light Gray background for the entire app
@@ -39,6 +40,14 @@ const theme = createTheme({
           textTransform: 'uppercase',
            fontSize: '1.5rem'
         },
+        root: {
+           backgroundColor: '#08253c',
+          color: '#ffffff',
+          transition: 'background-color 0.3s ease',
+          '&:hover': {
+            backgroundColor: '#01579b', // or theme.palette.success.dark
+          }
+        }
       },
     },
   },

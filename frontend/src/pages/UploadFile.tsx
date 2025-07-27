@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import * as React from "react";
+
 
 import { transcript_api } from "../api/apis";
 
@@ -13,7 +12,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 275,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -45,7 +44,6 @@ export default function UploadFile({
   onTranscriptReady,
 }: UploadFileProps) {
 
-  const [showLoader, setShowLoader] = React.useState(false);
 
   const get_file_details = async (file_details: FileList | null) => {
     if (!file_details || file_details.length === 0) return;
@@ -79,9 +77,6 @@ export default function UploadFile({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h6">
-          Upload the meet recordings.
-        </Typography>
         <Button
           component="label"
           role={undefined}
@@ -89,7 +84,7 @@ export default function UploadFile({
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
         >
-          Upload files
+          Upload files here
           <VisuallyHiddenInput
             type="file"
             accept=".mp3, .mp4, .wav"

@@ -1,6 +1,7 @@
-import { Card, CardHeader, CardContent, Typography } from "@mui/material";
+import { Card, CardHeader, CardContent, Typography, Avatar } from "@mui/material";
 import { APP_LABELS } from "../core/constants/Labels";
 import Skeleton from '@mui/material/Skeleton';
+import TranscribeIcon from '@mui/icons-material/Transcribe';
 
 interface TranscriptProps {
   text: string;
@@ -9,10 +10,15 @@ interface TranscriptProps {
 export default function Transcript({ text }: TranscriptProps) {
   return (
     <Card sx={{ width: "100%", m: 2 }}>
-      <CardHeader title={APP_LABELS.STEP1_TITLE} />
+      <CardHeader title={APP_LABELS.STEP1_TITLE}
+        avatar={
+          <Avatar sx={{ bgcolor: 'primary.main' }}>
+            <TranscribeIcon />
+          </Avatar>
+        } />
       <CardContent>
         {text === 'loading' ? (
-          <Skeleton  animation="wave"  variant="rectangular" width={300} height={100} />
+          <Skeleton animation="wave" variant="rectangular" width={300} height={100} />
         ) : (
           <Typography
             variant="body2"

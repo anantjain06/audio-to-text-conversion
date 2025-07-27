@@ -53,7 +53,7 @@ export default function App() {
               <Typography variant="h6"  sx={{ flexGrow: 1 }}>
                 {APP_LABELS.APP_TITLE}
               </Typography>
-              <Button variant="contained" color="success" onClick={handleButtonClick}>
+              <Button size="large" variant="contained" color="success" onClick={handleButtonClick}>
                {APP_LABELS.BUTTONS.UPLOAD}
               </Button>
             </Toolbar>
