@@ -3,9 +3,13 @@ import os
 import time
 from dotenv import load_dotenv
 
+# File Imports
+from prompts.summary_prompt import SUMMARY_PROMPT_TEMPLATE
+
 # Langchain Imports
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 # Config Imports
 import configparser
@@ -18,7 +22,7 @@ load_dotenv()
 
 repo_id = config['DEFAULT']['text_summarization_model']
 
-def create_prompt(transcript):
+def create_prompt():
     """
     Create a prompt for summarization using a template.
     Args:
@@ -27,17 +31,13 @@ def create_prompt(transcript):
         list: A list of messages formatted for the summarization model.
     """
 
-    with open("summarization_prompt.txt", "r") as file:
-        prompt_template = file.read()
-
-    final_prompt = prompt_template.replace("<<<TRANSCRIPT>>>", transcript.strip())
-
-    messages = [
-        SystemMessage(content="You are a conversation summarization assistant."),
-        HumanMessage(content=final_prompt),
-    ]
-
-    return messages
+    prompt_template = ChatPromptTemplate.from_messages(
+        [
+            ("system", "You are a helpful assiatant. Your task to help user summarize there meeting conversations."),
+            ("human", SUMMARY_PROMPT_TEMPLATE)
+        ]
+    )
+    return prompt_template
 
 def text_summarization(transcript):
     """
@@ -50,24 +50,24 @@ def text_summarization(transcript):
     try:
         start = time.time()
         
-        llm = HuggingFaceEndpoint(
+        chat_model = HuggingFaceEndpoint(
             repo_id=repo_id,
             huggingfacehub_api_token=os.getenv("HUGGINGFACE_API_TOKEN"),
-            task="summarization",
+            task="conversational",
             max_new_tokens=512,
-            temperature=0.2,
-            streaming=True
+            temperature=0.2
         )
+        llm = ChatHuggingFace(llm=chat_model)
 
-        chat_model = ChatHuggingFace(llm=llm)
+        template = create_prompt()
+        chain = template | llm | StrOutputParser()
 
-        messages = create_prompt(transcript)
-        ai_msg = chat_model.invoke(messages)
+        response = chain.invoke({"transcript" : transcript})
 
         end = time.time()
         print(f"Summarization completed in {end - start:.2f} seconds.")
 
-        return ai_msg.content
+        return response
     except Exception as e:
         print(f"Error in text_summarization: {str(e)}")
         return None
