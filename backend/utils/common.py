@@ -2,6 +2,9 @@
 import re
 from datetime import datetime
 
+# File Imports
+from prompts.minutes_prompts import MOM_PROMPT_TEMPLATE
+
 # HuggingFace Transformer Imports
 from transformers import pipeline
 

@@ -4,19 +4,23 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-
 import { transcript_api } from "../api/apis";
+import { Typography } from "@mui/material";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 275,
+  width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: 2,
   boxShadow: 24,
   p: 4,
+  display: "flex",
+  flexDirection: "column",
+  gap: 3,
+  alignItems: "center",
 };
 
 const VisuallyHiddenInput = styled("input")({
@@ -43,8 +47,6 @@ export default function UploadFile({
   handleClose,
   onTranscriptReady,
 }: UploadFileProps) {
-
-
   const get_file_details = async (file_details: FileList | null) => {
     if (!file_details || file_details.length === 0) return;
 
@@ -57,7 +59,7 @@ export default function UploadFile({
     }
     handleClose();
     try {
-      onTranscriptReady('loading');
+      onTranscriptReady("loading");
       const response = await transcript_api(file);
       const text =
         response?.data?.transcript || JSON.stringify(response?.data, null, 2);
@@ -77,6 +79,22 @@ export default function UploadFile({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <Typography
+          id="upload-modal-title"
+          variant="h6"
+          component="h2"
+          textAlign="center"
+        >
+          Upload Meet Recordings
+        </Typography>
+
+        <Typography
+          id="upload-modal-description"
+          variant="body2"
+          sx={{ color: "text.secondary", textAlign: "center" }}
+        >
+          Supported formats: .mp3, .mp4, .wav
+        </Typography>
         <Button
           component="label"
           role={undefined}

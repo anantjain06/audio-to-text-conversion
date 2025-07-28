@@ -22,15 +22,13 @@ export default function App() {
   const [open, setOpen] = React.useState(false);
   const [transcriptText, setTranscriptText] = React.useState("");
 
-  // const { loading = false } = props;
-
   const handleButtonClick = () => {
     setShowComponent(true);
     setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false); // close modal
+    setOpen(false); 
   };
 
   return (
@@ -48,7 +46,7 @@ export default function App() {
                 component="img"
                 sx={{ height: 40, mr: 2 }}
                 alt="App Logo"
-                src="./transcript.png" // Replace with your image path
+                src="./transcript.png" 
               />
               <Typography variant="h6"  sx={{ flexGrow: 1 }}>
                 {APP_LABELS.APP_TITLE}

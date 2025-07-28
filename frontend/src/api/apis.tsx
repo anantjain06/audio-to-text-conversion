@@ -1,12 +1,14 @@
 import axios from "axios";
 
+import {API_URLS} from "../core/constants/Common";
+
 export async function transcript_api(file: File) {
   const formData = new FormData();
   formData.append("file", file); // "file" must match what your backend expects
 
   try {
     const response = await axios.post(
-      "http://172.29.128.148:8001/transcript",
+      API_URLS.TRANSCRIPT,
       formData,
       {
         headers: {
@@ -24,7 +26,7 @@ export async function transcript_api(file: File) {
 export async function analysis_api(transcript: string) {
   try {
     const response = await axios.post(
-      "http://172.29.128.148:8001/analysis",
+      API_URLS.ANALYSIS,
       {
         text: transcript,
       },
@@ -46,7 +48,7 @@ export async function summary_api(transcript: string) {
     console.log('transcript', transcript);
   try {
     const response = await axios.post(
-      "http://172.29.128.148:8001/summary",
+      API_URLS.SUMMARY,
       {
         text: transcript,
       },

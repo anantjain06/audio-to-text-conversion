@@ -7,13 +7,13 @@ import {
   Stack,
   IconButton,
   Avatar,
+  Skeleton,
 } from "@mui/material";
 // import SendIcon from "@mui/icons-material/Send";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import DownloadIcon from "@mui/icons-material/Download";
-import SummarizeIcon from '@mui/icons-material/Summarize';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 
 import { summary_api } from "../api/apis";
 import { APP_LABELS } from "../core/constants/Labels";
@@ -62,19 +62,23 @@ export default function Summary({ text }: TranscriptProps) {
       <CardHeader
         title={title}
         avatar={
-          <Avatar sx={{ bgcolor: 'primary.main' }}>
-           {title === 'Summary' ? <SummarizeIcon /> : <MeetingRoomIcon/>}
+          <Avatar sx={{ bgcolor: "primary.main" }}>
+            {title === "Summary" ? <SummarizeIcon /> : <MeetingRoomIcon />}
           </Avatar>
         }
         action={
           <Stack direction="row" spacing={1}>
-            <IconButton onClick={() => handleCopy(content)} aria-label="copy"  sx={{ bgcolor: 'success.main', color:'success.contrastText' }}>
+            <IconButton
+              onClick={() => handleCopy(content)}
+              aria-label="copy"
+              sx={{ bgcolor: "success.main", color: "success.contrastText" }}
+            >
               <FileCopyIcon />
             </IconButton>
             <IconButton
               onClick={() => handleDownload(content, filename)}
               aria-label="download"
-              sx={{ bgcolor: 'success.main', color:'success.contrastText' }}
+              sx={{ bgcolor: "success.main", color: "success.contrastText" }}
             >
               <DownloadIcon />
             </IconButton>
@@ -82,27 +86,44 @@ export default function Summary({ text }: TranscriptProps) {
         }
       />
       <CardContent sx={{ maxHeight: "200px", overflowY: "auto" }}>
-        <Typography
-          variant="body2"
-          sx={{
-            color: "text.secondary",
-            whiteSpace: "pre-wrap", 
-            wordBreak: "break-word", 
-            overflowWrap: "anywhere", 
-          }}
-        >
-          <span
-            style={{
-              margin: 0,
-              fontFamily: "inherit",
+        {text === "loading" ? (
+          <>
+            <Skeleton
+              animation="wave"
+              height={10}
+              style={{ marginBottom: 6 }}
+            />
+            <Skeleton
+              animation="wave"
+              height={10}
+              width="80%"
+              style={{ marginBottom: 6 }}
+            />
+            <Skeleton animation="wave" height={10} width="60%" />
+          </>
+        ) : (
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",
               overflowWrap: "anywhere",
             }}
           >
-            {content || `No ${title.toLowerCase()} loaded yet.`}
-          </span>
-        </Typography>
+            <span
+              style={{
+                margin: 0,
+                fontFamily: "inherit",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+                overflowWrap: "anywhere",
+              }}
+            >
+              {content || `No ${title.toLowerCase()} loaded yet.`}
+            </span>
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

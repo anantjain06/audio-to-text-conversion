@@ -9,6 +9,7 @@ import {
   Typography,
   LinearProgress,
   CircularProgress,
+  Skeleton,
 } from "@mui/material";
 
 // import SendIcon from "@mui/icons-material/Send";
@@ -16,9 +17,9 @@ import { PieChart } from "@mui/x-charts/PieChart";
 
 import { analysis_api } from "../api/apis";
 import { APP_LABELS } from "../core/constants/Labels";
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
-import TopicIcon from '@mui/icons-material/Topic';
-import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import TopicIcon from "@mui/icons-material/Topic";
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 
 const containerWidth_1 = "33%";
 
@@ -63,18 +64,18 @@ export default function Analysis({ text }: TranscriptProps) {
     }
   };
 
-  const getIconByTitle = (title:string) => {
+  const getIconByTitle = (title: string) => {
     switch (title) {
-      case 'Intents':
+      case "Intents":
         return <GpsFixedIcon />;
-      case 'Sentiments':
+      case "Sentiments":
         return <SentimentSatisfiedAltIcon />;
-      case 'Topics':
+      case "Topics":
         return <TopicIcon />;
       default:
         return <TopicIcon />;
     }
-};
+  };
 
   useEffect(() => {
     if (text.length > 0) {
@@ -94,80 +95,100 @@ export default function Analysis({ text }: TranscriptProps) {
           <Card key={title} sx={{ width: containerWidth_1, m: 2 }}>
             <CardHeader
               avatar={
-                  <Avatar sx={{ bgcolor: 'primary.main' }}>
-                    {getIconByTitle(title)}
-                  </Avatar>
+                <Avatar sx={{ bgcolor: "primary.main" }}>
+                  {getIconByTitle(title)}
+                </Avatar>
               }
               title={title}
             />
 
             <CardContent>
-              {isSentiments &&
-                sentiments.length > 0 &&
-                sentiments.map((item, index) => (
-                  <Grid key={index} container alignItems="center" spacing={1}>
-                    <Grid sx={{ width: "50%" }}>
-                      <LinearProgress
-                        variant="determinate"
-                        value={item.score * 100}
-                        sx={{ height: 10, borderRadius: 5 }}
-                      />
-                    </Grid>
-                    <Grid>
-                      <Typography sx={{ fontSize: "14px" }}>
-                        {item.label} ({(item.score * 100).toFixed(1)}%)
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                ))}
-
-              {isIntents &&
-                intents.length > 0 &&
-                intents.map((item, index) => (
-                  <Grid key={index} container alignItems="center" spacing={2}>
-                    <Grid>
-                      <CircularProgress
-                        variant="determinate"
-                        value={item.score * 100}
-                        size={30}
-                      />
-                    </Grid>
-                    <Grid>
-                      <Typography sx={{ fontSize: "14px" }}>
-                        {item.label} ({(item.score * 100).toFixed(1)}%)
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                ))}
-
-              {isTopics && topics.length > 0 && (
-                <PieChart
-                  series={[
-                    {
-                      data: topics.map((item, index) => ({
-                        id: index,
-                        value: item.score * 100,
-                        label: item.label,
-                      })),
-                    },
-                  ]}
-                  width={250}
-                  height={200}
+              {text === "loading" ? (
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  width="100%" height="30vh"
                 />
-              )}
+              ) : (
+                <>
+                  {isSentiments &&
+                    sentiments.length > 0 &&
+                    sentiments.map((item, index) => (
+                      <Grid
+                        key={index}
+                        container
+                        alignItems="center"
+                        spacing={1}
+                      >
+                        <Grid sx={{ width: "50%" }}>
+                          <LinearProgress
+                            variant="determinate"
+                            value={item.score * 100}
+                            sx={{ height: 10, borderRadius: 5 }}
+                          />
+                        </Grid>
+                        <Grid>
+                          <Typography sx={{ fontSize: "14px" }}>
+                            {item.label} ({(item.score * 100).toFixed(1)}%)
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    ))}
 
-              {!hasFetched ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "text.secondary",
-                    fontStyle: "italic",
-                    textAlign: "center",
-                  }}
-                >
-                  No analysis yet.
-                </Typography>
-              ) : null}
+                  {isIntents &&
+                    intents.length > 0 &&
+                    intents.map((item, index) => (
+                      <Grid
+                        key={index}
+                        container
+                        alignItems="center"
+                        spacing={2}
+                      >
+                        <Grid>
+                          <CircularProgress
+                            variant="determinate"
+                            value={item.score * 100}
+                            size={30}
+                          />
+                        </Grid>
+                        <Grid>
+                          <Typography sx={{ fontSize: "14px" }}>
+                            {item.label} ({(item.score * 100).toFixed(1)}%)
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    ))}
+
+                  {isTopics && topics.length > 0 && (
+                    <PieChart
+                      series={[
+                        {
+                          data: topics.map((item, index) => ({
+                            id: index,
+                            value: item.score * 100,
+                            label: item.label,
+                          })),
+                        },
+                      ]}
+                      width={250}
+                      height={200}
+                    />
+                  )}
+
+                  {!hasFetched ? (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "text.secondary",
+                        fontStyle: "italic",
+                        textAlign: "center",
+                      }}
+                    >
+                      No analysis loaded yet.
+                    </Typography>
+                  ) : null}
+                </>
+              )}
             </CardContent>
           </Card>
         );
