@@ -14,6 +14,16 @@ Make sure you have the following versions installed:
 
 ---
 
+## 📦 Clone the Repository
+
+```bash
+git clone "https://github.com/anantjain06/audio-to-text-conversion.git"
+cd audio-to-text-conversion
+git checkout dev
+```
+
+---
+
 ## 🚀 Getting Started
 
 ### 🔧 Backend Setup
