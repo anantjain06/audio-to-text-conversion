@@ -38,7 +38,7 @@ export default function Summary({ text }: TranscriptProps) {
   };
 
   useEffect(() => {
-    if (text.length > 0) {
+    if (text.length > 0 && text!="loading") {
       getSummary();
     }
   }, [text]);

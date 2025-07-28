@@ -52,6 +52,7 @@ export default function Analysis({ text }: TranscriptProps) {
   const getAnalysis = async () => {
     try {
       if (!text) return;
+      console.log(text +"For analysis");
       const response = await analysis_api(text);
       setHasFetched(true);
 
@@ -78,7 +79,7 @@ export default function Analysis({ text }: TranscriptProps) {
   };
 
   useEffect(() => {
-    if (text.length > 0) {
+    if (text.length > 0 && text!="loading") {
       getAnalysis();
     }
   }, [text]);
