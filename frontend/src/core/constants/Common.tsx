@@ -1,5 +1,5 @@
 export const API_URLS = {
-    TRANSCRIPT: "http://0.0.0.0:8001/transcript",
-    SUMMARY: "http://0.0.0.0:8001/summary",
-    ANALYSIS: "http://0.0.0.0:8001/analysis"
+    TRANSCRIPT: "http://127.0.0.1:8001/transcript",
+    SUMMARY: "http://127.0.0.1:8001/summary",
+    ANALYSIS: "http://127.0.0.1:8001/analysis"
 }
