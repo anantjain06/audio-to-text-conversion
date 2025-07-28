@@ -42,8 +42,6 @@ npm run dev
 
 Use `text_to_speech.py` or `tts.py` to convert text scripts into audio files.
 
-- Test file: `docs/raw_audio/test-audio.wav`
-
 ---
 
 ## 🧪 API Usage Guide
@@ -65,8 +63,7 @@ file: docs/raw_audio/test-audio.wav
 **Body Example**:
 ```json
 {
-  "text": "Paste transcript text here",
-  "audio_file_path": "docs/raw_audio/test-audio.wav"
+  "text": "Paste transcript text here"
 }
 ```
 
@@ -87,8 +84,6 @@ file: docs/raw_audio/test-audio.wav
 ```
 HUGGINGFACE_API_TOKEN=your_token_here
 ```
-
----
 
 ---
 
