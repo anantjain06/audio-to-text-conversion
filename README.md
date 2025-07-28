@@ -87,8 +87,6 @@ HUGGINGFACE_API_TOKEN=your_token_here
 
 ---
 
----
-
 ## ✅ Notes
 
 - Always activate the Python environment before running backend scripts.
